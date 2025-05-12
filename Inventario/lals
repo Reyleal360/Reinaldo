@@ -1,0 +1,94 @@
+productos_guardados={}
+
+def agregar_productos(id,nombre,precio,cantidad):
+     producto_entrada={
+          "id":id,
+          "nombre":nombre,
+          "precio":precio,
+          "cantidad":cantidad,
+     }
+     productos_guardados[id]=producto_entrada
+     return producto_entrada
+
+def Buscar_datos(id_buscar):
+    if id_buscar in productos_guardados:
+        producto = productos_guardados[id_buscar]
+        print(f"\nID encontrado: {id_buscar}")
+        print(f"Nombre: {producto['nombre']}, Precio: {producto['precio']:.2f},  Cantidad: {producto['cantidad']}, Precio: {producto['precio']}")
+    else:
+        print("El ID que buscó no existe.")
+
+def actualizar(id,precio_producto,):
+    if id in productos_guardados:
+        productos_guardados[id]['precio']=precio_producto
+        return True
+    else:
+        return False
+    
+def errores(mensaje, tipo=float):
+    while True:
+        valor=input(mensaje)
+        try:    
+         return tipo(valor)
+        except ValueError:  
+            print("ingrese un valor valido")
+
+def eliminar(id):
+    if id in productos_guardados:
+        producto_eliminado=productos_guardados.pop(id)
+        return True
+    else:
+        return False
+def Menu():
+    while True:
+        print("Bienvenido De una tienda")
+        print("¿Que opcion desea escoger?")
+        print("1.agregar producto")
+        print("2.buscar producto atravez de su ID ")
+        print("3.actualizar datos de un producto")
+        print("4. eliminar producto")
+        opcion =input("ingrese la opcion que desea  ")
+        opcion=int(opcion)
+        if opcion == 1:
+            id=errores("Ingrese el id del articulo    ")
+            id=float(id)
+            if id in productos_guardados:
+                print("Este id ya esta en uso ingrese otro por favor    ")
+            try:
+                nombre=input("Ingrese el nombre del articulo    ")
+                precio=errores("ingrese el precio del articulo    ")
+                precio=int(precio)
+                cantidad=errores("ingrese la cantidad del articulo que desea  ")
+                cantidad=int(cantidad)
+                if precio <=0 or cantidad <=0:
+                    print("ingrese datos positivos")
+            except ValueError: print("entrada invalida")
+            agregar_productos(id,nombre,precio,cantidad)
+            print(f"el producto {nombre} se guardo existosamente ")
+        elif opcion == 2:
+            id_buscar = errores("Ingresa el ID que vas a buscar: ", int)
+            Buscar_datos(id_buscar)
+        elif opcion==3:
+            id_actualiar=input("ingrese el id que va a actualizar   ")
+            id_actualiar=int(id_actualiar)
+            nuevo_precio=errores("ingrese el nuevo  precio del producto ")
+            nuevo_precio=float(nuevo_precio)
+            if actualizar(id_actualiar,nuevo_precio,):
+                print("precio actualizado")
+            else:
+                print("producto no existe")
+        elif opcion == 4:
+            id=errores("ingrese el id a eliminar")
+            id=int(id)
+            eliminado=eliminar(id)
+            if eliminado:
+                print(f"el producto :",eliminado)
+            else:
+                print("no se encontro id")
+
+            
+        
+
+    
+
+Menu()
