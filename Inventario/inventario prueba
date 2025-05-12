@@ -1,0 +1,98 @@
+# Inventory Manager - All code and comments are in English
+
+inventory = {}
+
+def add_product():
+    """Add a product to the inventory."""
+    name = input("Enter product name: ").strip()
+    if not name:
+        print("Product name cannot be empty.")
+        return
+    try:
+        price = float(input("Enter product price: "))
+        quantity = int(input("Enter product quantity: "))
+        if price <= 0 or quantity < 0:
+            print("Price must be positive and quantity must be non-negative.")
+            return
+        if name in inventory:
+            inventory[name]["quantity"] += quantity
+        else:
+            inventory[name] = {"price": price, "quantity": quantity}
+        print(f"{name} added/updated successfully.")
+    except ValueError:
+        print("Invalid input. Price must be a number and quantity an integer.")
+
+def get_product():
+    """Retrieve product details by name."""
+    name = input("Enter product name to search: ").strip()
+    if name in inventory:
+        product = inventory[name]
+        print(f"{name} - Price: ${product['price']:.2f}, Quantity: {product['quantity']}")
+    else:
+        print("Product not found in inventory.")
+
+def update_price():
+    """Update the price of a product."""
+    
+    name = input("Enter product name to update price: ").strip()
+    if name in inventory:
+        try:
+            new_price = float(input("Enter new price: "))
+            if new_price > 0:
+                inventory[name]["price"] = new_price
+                print("Price updated successfully.")
+            else:
+                print("New price must be a positive number.")
+        except ValueError:
+            print("Invalid input. Price must be a number.")
+    else:
+        print("Product not found in inventory.")
+
+def remove_product():
+    """Remove a product from the inventory."""
+    name = input("Enter product name to remove: ").strip()
+    if name in inventory:
+        del inventory[name]
+        print("Product removed successfully.")
+    else:
+        print("Product not found in inventory.")
+
+def calculate_total_value():
+    """Calculate and return the total inventory value."""
+    total = 0
+    for product in inventory.values():
+        total += product["price"] * product["quantity"]
+    print(f"Total inventory value: ${total:.2f}")
+
+def show_menu():
+    """Display the main menu."""
+    print("\nInventory Manager Menu")
+    print("1. Add product")
+    print("2. Search product")
+    print("3. Update product price")
+    print("4. Remove product")
+    print("5. Show total inventory value")
+    print("6. Exit")
+
+def main():
+    while True:
+        show_menu()
+        choice = input("Choose an option (1-6): ")
+        if choice == "1":
+            add_product()
+        elif choice == "2":
+            get_product()
+        elif choice == "3":
+            update_price()
+        elif choice == "4":
+            remove_product()
+        elif choice == "5":
+            calculate_total_value()
+        elif choice == "6":
+            print("Exiting Inventory Manager. Goodbye!")
+            break
+        else:
+            print("Invalid option. Please choose a number from 1 to 6.")
+
+if __name__ == "__main__":
+    main()
